@@ -1,0 +1,49 @@
+{
+  "name": "@agentis/solana-pairs-liquidity-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for real-time Solana blockchain liquidity and token pairs data",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "solana-pairs-liquidity-mcp": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x build/index.js",
+    "start": "node build/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "jest"
+  },
+  "files": [
+    "build",
+    "README.md"
+  ],
+  "keywords": [
+    "mcp",
+    "solana",
+    "liquidity",
+    "pairs",
+    "defi",
+    "blockchain",
+    "real-time"
+  ],
+  "author": "Agentis Development Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.3",
+    "@solana/web3.js": "^1.95.0",
+    "@solana/spl-token": "^0.4.6",
+    "node-fetch": "^3.3.2",
+    "dotenv": "^16.4.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.4.5",
+    "tsx": "^4.7.1",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
