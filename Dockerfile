@@ -5,8 +5,7 @@ WORKDIR /app
 # ---- Dependencies ----
 FROM base AS dependencies
 COPY package.json package-lock.json* ./
-RUN npm ci --only=production
-
+RUN npm install --only=production
 # ---- Build ----
 FROM base AS build
 COPY --from=dependencies /app/node_modules ./node_modules
