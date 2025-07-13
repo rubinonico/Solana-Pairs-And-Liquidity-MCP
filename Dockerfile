@@ -1,33 +1,34 @@
-FROM node:18-slim
-
-# Install dumb-init for proper signal handling
-RUN apt-get update && apt-get install -y dumb-init && rm -rf /var/lib/apt/lists/*
-
-# Create app directory
+# ---- Base ----
+FROM node:18-slim AS base
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
+# ---- Dependencies ----
+FROM base AS dependencies
+COPY package.json package-lock.json* ./
 RUN npm ci --only=production
 
-# Copy built application
-COPY build/ ./build/
+# ---- Build ----
+FROM base AS build
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+# ---- Release ----
+FROM base AS release
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY --from=build /app/build ./build
+COPY package.json .
 
 # Create non-root user
 RUN groupadd -g 1001 nodejs && \
     useradd -r -u 1001 -g nodejs nodejs && \
     chown -R nodejs:nodejs /app
 
-# Switch to non-root user
 USER nodejs
 
-# Expose port (though MCP uses stdio)
-EXPOSE 3000
+CMD [ "npm", "start" ]
 
-# Use dumb-init for proper signal handling
-ENTRYPOINT ["dumb-init", "--"]
+dockerfile
 
-# Start the application
-CMD ["node", "build/index.js"] 
+
+
