@@ -28,7 +28,5 @@ USER nodejs
 
 CMD [ "npm", "start" ]
 
-dockerfile
-
 
 
